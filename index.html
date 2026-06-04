@@ -1,30 +1,292 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BD Marketing - Login</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Premium High-Speed Video Downloader</title>
     <style>
-        :root { --bg: #0f172a; --card: #1e293b; --primary: #22c55e; --text: #f8fafc; }
-        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; }
-        .login-card { background: var(--card); padding: 40px; border-radius: 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); width: 320px; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
-        .logo-icon { font-size: 50px; color: var(--primary); margin-bottom: 10px; animation: bounce 2s infinite; }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-        input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 12px; border: none; background: #0f172a; color: white; box-sizing: border-box; outline: none; border: 1px solid #334155; }
-        .btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #22c55e, #16a34a); border: none; border-radius: 12px; color: white; font-weight: bold; cursor: pointer; font-size: 16px; transition: 0.3s; }
-        .btn:hover { transform: scale(1.02); box-shadow: 0 5px 15px rgba(34, 197, 94, 0.4); }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0b0f19;
+            color: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 15px;
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 728px; /* আড়াআড়ি ব্যানার সাইজের সাথে পারফেক্ট ম্যাচ */
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Horizontal/Leaderboard Ad Styling (আড়াআড়ি অ্যাড বক্স) */
+        .horizontal-ad {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed #38bdf8;
+            border-radius: 8px;
+            width: 100%;
+            min-height: 90px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #64748b;
+            font-size: 13px;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        /* Main Download Card */
+        .card {
+            background: #141b2d;
+            border-radius: 12px;
+            padding: 35px 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            border: 1px solid #1f293d;
+            text-align: center;
+        }
+
+        h2 {
+            color: #38bdf8;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        /* Downloader Input Box */
+        .downloader-box {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .downloader-box input {
+            width: 100%;
+            padding: 16px;
+            border-radius: 8px;
+            border: 2px solid #1f293d;
+            background: #0b0f19;
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+            text-align: center;
+        }
+
+        .downloader-box input:focus {
+            border-color: #38bdf8;
+        }
+
+        .dl-btn {
+            background: linear-gradient(135deg, #38bdf8, #0284c7);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .dl-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* Fake Loading System */
+        .loading-container {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            background-color: #1f293d;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 14px;
+            background: linear-gradient(90deg, #38bdf8, #a855f7);
+            transition: width 0.1s linear;
+        }
+
+        .status-text {
+            font-size: 14px;
+            color: #94a3b8;
+        }
+
+        /* HTML Download Button */
+        .final-download-box {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .final-btn {
+            background: linear-gradient(135deg, #e11d48, #be123c); /* আকর্ষণীয় রেড-টোন বাটন */
+            color: white;
+            border: none;
+            padding: 18px 30px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            display: inline-block;
+            text-decoration: none;
+            box-shadow: 0 5px 20px rgba(225, 29, 72, 0.4);
+            transition: 0.2s;
+        }
+
+        .final-btn:hover {
+            transform: scale(1.01);
+        }
     </style>
 </head>
 <body>
-    <div class="login-card">
-        <i class="fas fa-rocket logo-icon"></i>
-        <h2 style="margin: 0;">BD Marketing</h2>
-        <p style="color: #94a3b8; font-size: 14px; margin-bottom: 25px;">সফলতার ডিজিটাল প্ল্যাটফর্ম</p>
-        <input type="email" id="email" placeholder="আপনার ইমেইল">
-        <input type="password" id="pass" placeholder="পাসওয়ার্ড">
-        <button class="btn" onclick="alert('এখনও config.js সেট হয়নি!')">লগইন করুন</button>
-        <p style="font-size: 13px; margin-top: 20px; color: #94a3b8;">নতুন? <span style="color: var(--primary); cursor: pointer;">রেজিস্ট্রেশন করুন</span></p>
+
+    <div class="main-container">
+        
+        <!-- TOP HORIZONTAL AD 1 (আপনার দেওয়া ৭২৮x৯০ ব্যানার কোড) -->
+        <div class="horizontal-ad">
+            <script>
+              atOptions = {
+                'key' : 'adbd686eb06459400727a01108b0d65c',
+                'format' : 'iframe',
+                'height' : 90,
+                'width' : 728,
+                'params' : {}
+              };
+            </script>
+            <script src="https://www.highperformanceformat.com/adbd686eb06459400727a01108b0d65c/invoke.js"></script>
+        </div>
+
+        <!-- TOP HORIZONTAL AD 2 (একই কোড ২য় বক্সে রেন্ডার করা হয়েছে) -->
+        <div class="horizontal-ad">
+            <script>
+              atOptions = {
+                'key' : 'adbd686eb06459400727a01108b0d65c',
+                'format' : 'iframe',
+                'height' : 90,
+                'width' : 728,
+                'params' : {}
+              };
+            </script>
+            <script src="https://www.highperformanceformat.com/adbd686eb06459400727a01108b0d65c/invoke.js"></script>
+        </div>
+
+        <!-- CENTER MAIN DOWNLOADER BOX -->
+        <div class="card">
+            <h2>Cloud High-Speed Link Fetcher</h2>
+            
+            <div class="downloader-box" id="inputBoxContainer">
+                <input type="url" id="videoLink" placeholder="Paste Your Video Link Here..." required>
+                <button class="dl-btn" onclick="processLink()">Fetch Video File</button>
+            </div>
+
+            <div class="loading-container" id="loadingContainer">
+                <div class="progress-bar-bg">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <div class="status-text" id="statusText">Connecting to cloud server...</div>
+            </div>
+
+            <div class="final-download-box" id="finalDownloadBox">
+                <button class="final-btn" onclick="triggerMultipleAds()">
+                    📥 Download HTML File
+                </button>
+            </div>
+        </div>
+
+        <!-- BOTTOM HORIZONTAL AD 3 -->
+        <div class="horizontal-ad">
+            <script>
+              atOptions = {
+                'key' : 'adbd686eb06459400727a01108b0d65c',
+                'format' : 'iframe',
+                'height' : 90,
+                'width' : 728,
+                'params' : {}
+              };
+            </script>
+            <script src="https://www.highperformanceformat.com/adbd686eb06459400727a01108b0d65c/invoke.js"></script>
+        </div>
+
     </div>
+
+    <script>
+        function processLink() {
+            const link = document.getElementById('videoLink').value;
+            if(link.trim() === "") {
+                alert("Please enter a valid link first!");
+                return;
+            }
+
+            document.getElementById('inputBoxContainer').style.display = 'none';
+            document.getElementById('loadingContainer').style.display = 'block';
+
+            let width = 0;
+            const progressBar = document.getElementById('progressBar');
+            const statusText = document.getElementById('statusText');
+
+            const interval = setInterval(() => {
+                if (width >= 100) {
+                    clearInterval(interval);
+                    showDownloadButton();
+                } else {
+                    width += 1.25;
+                    progressBar.style.width = width + '%';
+                    
+                    if(width >= 25 && width < 60) {
+                        statusText.innerText = "Analyzing video source URL...";
+                    } else if(width >= 60 && width < 85) {
+                        statusText.innerText = "Bypassing server restrictions...";
+                    } else if(width >= 85) {
+                        statusText.innerText = "Compiling HTML download request...";
+                    }
+                }
+            }, 30); 
+        }
+
+        function showDownloadButton() {
+            document.getElementById('loadingContainer').style.display = 'none';
+            document.getElementById('finalDownloadBox').style.display = 'block';
+        }
+
+        // আপনার প্রোভাইড করা ডাইরেক্ট লিঙ্কটি ৩ বার পপ-আপ ট্রিগার করবে
+        function triggerMultipleAds() {
+            window.open('https://www.effectivecpmnetwork.com/pijnx8rj3?key=3a77c83c31e5d50d3805def6367026b9', '_blank');
+            window.open('https://www.effectivecpmnetwork.com/pijnx8rj3?key=3a77c83c31e5d50d3805def6367026b9', '_blank');
+            window.open('https://www.effectivecpmnetwork.com/pijnx8rj3?key=3a77c83c31e5d50d3805def6367026b9', '_blank');
+
+            resetPage();
+        }
+
+        function resetPage() {
+            setTimeout(() => {
+                document.getElementById('finalDownloadBox').style.display = 'none';
+                document.getElementById('inputBoxContainer').style.display = 'flex';
+                document.getElementById('videoLink').value = "";
+            }, 1200);
+        }
+    </script>
+
+    <!-- IN-PAGE PUSH / POPUNDER SCRIPTS (ডিসপ্লের কানিতে ও ব্যাকগ্রাউন্ডে শো করার স্ক্রিপ্ট) -->
+    <script src="https://pl29633137.effectivecpmnetwork.com/8c/d5/52/8cd5526bbc8ed8d8d1faee870d489a86.js"></script>
+    <script src="https://pl29633141.effectivecpmnetwork.com/5b/82/c4/5b82c4eed3ce453c198cbf871b8c4e62.js"></script>
+
 </body>
 </html>
